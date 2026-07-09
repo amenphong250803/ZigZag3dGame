@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlatformSpawner : MonoBehaviour
@@ -8,29 +9,34 @@ public class PlatformSpawner : MonoBehaviour
     Vector3 lastPosition;
     Vector3 newPos;
 
+    bool stop;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         lastPosition = lastPlatform.position;
+        StartCoroutine(SpawnPlatform());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
+        
+    }
+
+    IEnumerator SpawnPlatform()
+    {
+        while (!stop)
         {
-            SpawnPlatforms();
+            GeneratePosition();
+            Instantiate(platform, newPos, Quaternion.identity);
+            lastPosition = newPos;
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
-    void SpawnPlatforms()
-    {
-        GeneratePosition();
 
-        Instantiate(platform, newPos, Quaternion.identity);
-        
-        lastPosition = newPos;
-    }
 
     void GeneratePosition()
     {
