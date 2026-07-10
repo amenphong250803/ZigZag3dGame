@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     public bool gameStarted;
+
+    public GameObject platformSpawner;
 
     private void Awake()
     {
@@ -35,10 +38,18 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         gameStarted = true;
+        platformSpawner.SetActive(true);
     }
 
     public void GameOver()
     {
+        platformSpawner.SetActive(false);
 
+        Invoke("ReloadLevel", 1f);
+    }
+
+    void ReloadLevel()
+    {
+        SceneManager.LoadScene("Game");
     }
 }
