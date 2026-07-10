@@ -20,6 +20,11 @@ public class CarController : MonoBehaviour
             Move();
             CheckInput();
         }
+
+        if(transform.position.y < -2)
+        {
+            GameManager.instance.GameOver();
+        }
     }
 
     void Move()
