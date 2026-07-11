@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +10,10 @@ public class GameManager : MonoBehaviour
     public bool gameStarted;
 
     public GameObject platformSpawner;
+    public GameObject gamePlayUI;
+    int score = 0;
+
+    public TMP_Text scoreText;
 
     private void Awake()
     {
@@ -39,6 +45,9 @@ public class GameManager : MonoBehaviour
     {
         gameStarted = true;
         platformSpawner.SetActive(true);
+        gamePlayUI.SetActive(true);
+
+        StartCoroutine(UpdateScore());
     }
 
     public void GameOver()
@@ -51,5 +60,16 @@ public class GameManager : MonoBehaviour
     void ReloadLevel()
     {
         SceneManager.LoadScene("Game");
+    }
+
+    IEnumerator UpdateScore()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            score++;
+            
+            scoreText.text = score.ToString();
+        }
     }
 }
