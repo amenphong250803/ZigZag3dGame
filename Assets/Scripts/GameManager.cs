@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject platformSpawner;
     public GameObject gamePlayUI;
+    public GameObject menuUI;
     int score = 0;
 
     public TMP_Text scoreText;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
         gameStarted = true;
         platformSpawner.SetActive(true);
         gamePlayUI.SetActive(true);
+        menuUI.SetActive(false);
 
         StartCoroutine(UpdateScore());
     }
