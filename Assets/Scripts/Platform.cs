@@ -26,7 +26,11 @@ public class Platform : MonoBehaviour
 
     void Fall()
     {
-        GetComponent<Rigidbody>().isKinematic = false;
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        rb.isKinematic = false;
+        rb.linearVelocity = Vector3.down * 10f;
+
         Destroy(gameObject, 1f);
     }
 }
