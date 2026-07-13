@@ -13,8 +13,12 @@ public class GameManager : MonoBehaviour
     public GameObject gamePlayUI;
     public GameObject menuUI;
     int score = 0;
+    int highScore = 0;
 
+    public TMP_Text highScoreText;
     public TMP_Text scoreText;
+
+    private Coroutine scoreCoroutine;
 
     private void Awake()
     {
@@ -26,7 +30,9 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        highScore = PlayerPrefs.GetInt("HighScore");
+
+        highScoreText.text = "High Score: " + highScore.ToString();
     }
 
     // Update is called once per frame
@@ -49,13 +55,14 @@ public class GameManager : MonoBehaviour
         gamePlayUI.SetActive(true);
         menuUI.SetActive(false);
 
-        StartCoroutine(UpdateScore());
+        scoreCoroutine = StartCoroutine(UpdateScore());
     }
 
     public void GameOver()
     {
         platformSpawner.SetActive(false);
-
+        StopCoroutine(scoreCoroutine);
+        SaveHighScore();
         Invoke("ReloadLevel", 1f);
     }
 
@@ -72,6 +79,21 @@ public class GameManager : MonoBehaviour
             score++;
             
             scoreText.text = score.ToString();
+        }
+    }
+
+    void SaveHighScore()
+    {
+        if(PlayerPrefs.HasKey("HighScore"))
+        {
+            if(score > highScore)
+            {
+                PlayerPrefs.SetInt("HighScore", score);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("HighScore", score);
         }
     }
 }
