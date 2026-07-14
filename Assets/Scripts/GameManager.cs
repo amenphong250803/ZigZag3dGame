@@ -20,12 +20,18 @@ public class GameManager : MonoBehaviour
 
     private Coroutine scoreCoroutine;
 
+    AudioSource audioSource;
+
+    public AudioClip[] gameMusic;
+
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,8 +60,11 @@ public class GameManager : MonoBehaviour
         platformSpawner.SetActive(true);
         gamePlayUI.SetActive(true);
         menuUI.SetActive(false);
+        audioSource.clip = gameMusic[1];
+        audioSource.Play();
 
         scoreCoroutine = StartCoroutine(UpdateScore());
+
     }
 
     public void GameOver()
