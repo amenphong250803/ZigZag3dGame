@@ -4,10 +4,20 @@ using System.Collections.Generic;
 
 public class Platform : MonoBehaviour
 {
+    public GameObject diamond;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        int randDiamond = Random.Range(0, 7);
         
+        Vector3 diamondPos = transform.position;
+        diamondPos.y += 1f;
+
+        if(randDiamond == 0)
+        {
+            Instantiate(diamond, diamondPos, Quaternion.identity);
+        }
     }
 
     // Update is called once per frame
