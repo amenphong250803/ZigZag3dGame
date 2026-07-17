@@ -63,9 +63,10 @@ public class CarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
-        if(other.gameObject.tag == "Diamond")
+        if(other.CompareTag("Diamond"))
         {
-            GameManager.instance.AddDiamond(1);
+
+            GameManager.instance.AddDiamond();
             other.gameObject.SetActive(false);
         }
     }

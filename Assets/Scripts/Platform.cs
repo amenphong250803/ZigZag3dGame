@@ -16,7 +16,8 @@ public class Platform : MonoBehaviour
 
         if(randDiamond == 0)
         {
-            Instantiate(diamond, diamondPos, Quaternion.identity);
+            GameObject diamondInstance = Instantiate(diamond, diamondPos, Quaternion.identity);
+            diamondInstance.transform.SetParent(transform);
         }
     }
 
