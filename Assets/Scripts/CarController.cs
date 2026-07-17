@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -57,6 +58,15 @@ public class CarController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
             movingLeft = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) 
+    {
+        if(other.gameObject.tag == "Diamond")
+        {
+            GameManager.instance.AddDiamond(1);
+            other.gameObject.SetActive(false);
         }
     }
 }

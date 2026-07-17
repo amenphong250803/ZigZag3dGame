@@ -14,9 +14,12 @@ public class GameManager : MonoBehaviour
     public GameObject menuUI;
     int score = 0;
     int highScore = 0;
+    int diamondScore = 0;
 
     public TMP_Text highScoreText;
     public TMP_Text scoreText;
+
+    public TMP_Text diamondScoreText;
 
     private Coroutine scoreCoroutine;
 
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviour
         highScore = PlayerPrefs.GetInt("HighScore");
 
         highScoreText.text = "High Score: " + highScore.ToString();
+
+        diamondScoreText.text = "Diamond: " + diamondScore.ToString();
     }
 
     // Update is called once per frame
@@ -104,5 +109,12 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("HighScore", score);
         }
+    }
+
+    public void AddDiamond(int amount)
+    {
+        diamondScore += amount;
+        diamondScoreText.text = "Diamond: " +diamondScore.ToString();
+        Debug.Log("Diamond: " + diamondScore);
     }
 }
