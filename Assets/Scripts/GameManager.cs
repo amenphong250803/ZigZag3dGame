@@ -14,14 +14,19 @@ public class GameManager : MonoBehaviour
     public GameObject menuUI;
     int score = 0;
     int highScore = 0;
-    int diamondScore = 0;
+
+    int totalDiamond = 0;
+    int currentDiamond = 0;
 
     public TMP_Text highScoreText;
     public TMP_Text scoreText;
 
-    public TMP_Text diamondScoreText;
+    public TMP_Text totalDiamondText;
+    public TMP_Text currentDiamondText;
 
     private Coroutine scoreCoroutine;
+
+    private bool gameOver = false;
 
     AudioSource audioSource;
 
@@ -40,10 +45,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         highScore = PlayerPrefs.GetInt("HighScore");
+        totalDiamond = PlayerPrefs.GetInt("Diamond");
 
         highScoreText.text = "High Score: " + highScore.ToString();
-
-        diamondScoreText.text = "Diamond: " + diamondScore.ToString();
+        totalDiamondText.text = "Diamond: " + totalDiamond.ToString();
     }
 
     // Update is called once per frame
@@ -74,9 +79,23 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (gameOver == true)
+        {
+            return;
+        }
+
+        gameOver = true;
+
         platformSpawner.SetActive(false);
         StopCoroutine(scoreCoroutine);
+
+        totalDiamond += currentDiamond;
+
+        PlayerPrefs.SetInt("Diamond", totalDiamond);
+        PlayerPrefs.Save();
+
         SaveHighScore();
+
         Invoke("ReloadLevel", 1f);
     }
 
@@ -111,10 +130,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddDiamond(int amount)
-    {
-        diamondScore += amount;
-        diamondScoreText.text = "Diamond: " +diamondScore.ToString();
-        Debug.Log("Diamond: " + diamondScore);
+    public void AddDiamond()
+    {   
+        audioSource.PlayOneShot(gameMusic[2]);
+        currentDiamond += 1;
+        currentDiamondText.text = currentDiamond.ToString();
     }
+
+
 }
